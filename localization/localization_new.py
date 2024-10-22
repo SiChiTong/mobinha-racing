@@ -277,7 +277,7 @@ class Localization:
             self.dr_pos_cnt += 1
             print(f"DR_POS has used total {self.dr_pos_cnt * 0.05:.2f} sec! {self.RH.hAcc}")
         else:
-            self.RH.nav_health_pub.publish(1)  # emergency stop
+            self.RH.nav_health_pub.publish(2)  # emergency stop
             print("ERROR: ALL Position Dead")
             os.system('pkill -f "roslaunch ublox_gps ublox_device.launch"')
             self.RH.pos_invalid_cnt = 0
@@ -329,7 +329,7 @@ class Localization:
         # elif imu_hdg_valid:
         #     self.last_hdg = self.RH.imu_hdg
         else:
-            self.RH.nav_health_pub.publish(1)  # emergency stop
+            self.RH.nav_health_pub.publish(2)  # emergency stop
             print("ERROR: ALL Heading Dead")
             os.system('pkill -f "roslaunch ublox_gps ublox_device.launch"')    
             self.RH.hdg_invalid_cnt = 0
