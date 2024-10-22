@@ -368,7 +368,6 @@ class Planning():
         if self.race_mode == 'stop' :
             if not self.check_bank():
                 return -1
-            
 
         # 'slow_on' 모드 처리
         elif self.race_mode == 'slow_on':
@@ -379,7 +378,6 @@ class Planning():
                 return road_max_vel
             if self.slow_mode == 'ON':
                 return slow_vel
-            
 
         # 'pit_stop' 모드 처리
         elif self.race_mode == 'pit_stop':
@@ -392,15 +390,18 @@ class Planning():
                     interval = self.RH.current_velocity / (remain_dist/ (interval_divisor_base + (self.RH.current_velocity / interval_factor)))
                     acc_vel = max(self.RH.current_velocity - interval, -1)
         
-        if self.RH.system_health in [1,2] and not self.system_warning:
-            acc_vel = min(slow_vel*3, acc_vel)
+        if self.RH.system_health ==1 and not self.system_warning:
+            acc_vel = min(slow_vel*5, acc_vel)
             self.system_warning = True
 
         elif self.RH.system_health == 0 and self.system_warning:
             self.system_warning = False
         
         if self.system_warning:
-            acc_vel = min(slow_vel*3, acc_vel)
+            if self.RH.system_health == 1:
+                acc_vel = min(slow_vel*5, acc_vel)
+            elif self.RH.system_health == 2:
+                acc_vel = min(slow_vel/2, acc_vel)
             
         return acc_vel
 
