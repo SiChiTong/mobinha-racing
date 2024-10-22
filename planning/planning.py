@@ -237,7 +237,6 @@ class Planning():
                             self.lc_state_list = self.prev_lc_state_list
                 break
 
-    
         if self.acc_cnt >= 70 and self.race_mode != 'pit_stop' and not overtaking_required and self.lc_state_list is not None:
             overtaking_required = True
             self.acc_reset = True
@@ -381,7 +380,8 @@ class Planning():
 
         # 'pit_stop' 모드 처리
         elif self.race_mode == 'pit_stop':
-            self.max_vel = 60/3.6 if self.max_vel > 60/3.6 else self.max_vel
+            if self.gpp.get_pitstop_pass_id(self.RH.local_pos):
+                self.max_vel = 60/3.6 if self.max_vel > 60/3.6 else self.max_vel
             if self.gpp.get_remain_distance(self.RH.local_pos) < LOCAL_PATH_LENGTH:
                 remain_dist = ph.distance(self.RH.local_pos[0], self.RH.local_pos[1], self.pit_point[0], self.pit_point[1])
                 if self.pit_stop_decel == 'OFF' and ph.get_stop_distance(self.RH.current_velocity) > remain_dist:
