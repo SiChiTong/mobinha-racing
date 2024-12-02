@@ -1,3 +1,0 @@
-import global_path
-import global_path.libs
-import global_path.global_path_planner
